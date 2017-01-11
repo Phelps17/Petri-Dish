@@ -1,15 +1,17 @@
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 
-public class Microbe extends StackPane {
+public class Microbe extends BorderPane {
 	private static final int RADIUS_DEFAULT = 18;
+	private static final int MAX_VISION_FIELD = 5;
 
 	private int age, generation, name, clan;
-	private double rPigment, gPigment, bPigment;
+	private double rPigment, gPigment, bPigment, visionFieldDistance;
 	private Microbe parent1, parent2;
 
-	private Circle body;
+	private Circle body, visionField;
 
 	//private int stomachSize, stomachSpace, hungerRate;
 	//private int strength, speed, vision, fertility;
@@ -17,6 +19,10 @@ public class Microbe extends StackPane {
 	public Microbe() {
 		this.body = new Circle(0, 0, RADIUS_DEFAULT);
 		getChildren().add(this.body);
+
+		this.visionFieldDistance = Math.random() * MAX_VISION_FIELD;
+		addVisionField();
+
 		this.setLayoutY(Math.random() * 560);
 		this.setLayoutX(Math.random() * 960);
 
@@ -36,6 +42,12 @@ public class Microbe extends StackPane {
 		this.body.setStroke(Color.GREEN);
 		this.body.setStrokeWidth(3.5);
 
+		this.visionField.setFill(new Color(0, 0, 0, 0));
+		this.visionField.setStroke(Color.BLACK);
+		this.visionField.setStrokeWidth(1);
+
+		this.setRotate(Math.random() * 360);
+
 		System.out.println("ADDED:");
 		System.out.println(this.toString());
 		System.out.println();
@@ -52,6 +64,26 @@ public class Microbe extends StackPane {
 		this.bPigment = ((parent1.getbPigment() + parent2.getbPigment()) / 2);
 		this.gPigment = ((parent1.getgPigment() + parent2.getgPigment()) / 2);
 		//***********************************************
+	}
+
+	private void addVisionField() {
+		this.visionField = new Circle(0, 0, RADIUS_DEFAULT*this.visionFieldDistance);
+		getChildren().add(this.visionField);
+
+		getChildren().add(new Line(0, 0, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-25))), 
+				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-25)))));
+		getChildren().add(new Line(0, 0, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-45))), 
+				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-45)))));
+		getChildren().add(new Line(0, 0, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-60))), 
+				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-60)))));
+		getChildren().add(new Line(0, 0, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-90))), 
+				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-90)))));
+		getChildren().add(new Line(0, 0, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-115))), 
+				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-115)))));
+		getChildren().add(new Line(0, 0, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-135))), 
+				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-135)))));
+		getChildren().add(new Line(0, 0, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-150))), 
+				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-150)))));
 	}
 
 	public int getAge() {

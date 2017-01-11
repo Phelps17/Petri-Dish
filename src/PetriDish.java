@@ -15,6 +15,10 @@ import javafx.util.Duration;
 
 public class PetriDish extends Application {
 
+	static final int STARTING_FOOD = 5;
+	static final int STARTING_SNACKS = 15;
+	static final int STARTING_MICROBES = 1;
+	
 	@Override // Override the start method in the Application class
 	public void start(Stage primaryStage) {
 
@@ -55,7 +59,7 @@ public class PetriDish extends Application {
 		public DishPane() {
 			// Create an animation for moving the bouncers
 			animation = new Timeline(
-					new KeyFrame(Duration.millis(50), e -> moveNonMicrobes()));
+					new KeyFrame(Duration.millis(50), e -> updateDish()));
 			animation.setCycleCount(Timeline.INDEFINITE);
 			animation.play(); // Start animation
 			setInitialBouncers();
@@ -72,13 +76,17 @@ public class PetriDish extends Application {
 			getChildren().add(new Bouncer(775, 225));
 			getChildren().add(new Bouncer(725, 525));
 
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < STARTING_FOOD; i++) {
 				getChildren().add(new Food((25 + Math.random()*900), (25 + Math.random()*500)));
+			}
+			
+			for (int i = 0; i < STARTING_SNACKS; i++) {
+				getChildren().add(new Snack((25 + Math.random()*900), (25 + Math.random()*500)));
 			}
 		}
 
 		private void innoculateDish() {
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < STARTING_MICROBES; i++) {
 				getChildren().add(new Microbe());
 			}
 		}
@@ -94,8 +102,13 @@ public class PetriDish extends Application {
 		public DoubleProperty rateProperty() {
 			return animation.rateProperty();
 		}
+		
+		private void updateDish() {
+			updateMicrobes();
+			updateNonMicrobes();
+		}
 
-		private void moveNonMicrobes() {
+		private void updateNonMicrobes() {
 			for (Node node: this.getChildren()) {
 				if (!(node instanceof Microbe)) {
 					NonMicrobe entity = (NonMicrobe)node;
@@ -127,6 +140,16 @@ public class PetriDish extends Application {
 					// Adjust bouncer position
 					entity.setCenterX(entity.getCenterX() + (entity.speed*entity.dx));
 					entity.setCenterY(entity.getCenterY() + (entity.speed*entity.dy));
+				}
+			}
+		}
+		
+		private void updateMicrobes() {
+			for (Node node : this.getChildren()) {
+				if (node instanceof Microbe) {
+					Microbe microbe = (Microbe)node;
+					
+					
 				}
 			}
 		}
