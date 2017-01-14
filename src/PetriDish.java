@@ -15,7 +15,7 @@ import javafx.util.Duration;
 
 public class PetriDish extends Application {
 
-	static final int STARTING_FOOD = 5;
+	static final int STARTING_FOOD = 10;
 	static final int STARTING_SNACKS = 15;
 	static final int STARTING_MICROBES = 1;
 	
@@ -87,7 +87,8 @@ public class PetriDish extends Application {
 
 		private void innoculateDish() {
 			for (int i = 0; i < STARTING_MICROBES; i++) {
-				getChildren().add(new Microbe());
+				Microbe m = new Microbe();
+				getChildren().add(m);
 			}
 		}
 
@@ -106,6 +107,10 @@ public class PetriDish extends Application {
 		private void updateDish() {
 			updateMicrobes();
 			updateNonMicrobes();
+		}
+		
+		public void mark (double x, double y) {
+			getChildren().add(new Snack(x, y));
 		}
 
 		private void updateNonMicrobes() {
@@ -147,9 +152,7 @@ public class PetriDish extends Application {
 		private void updateMicrobes() {
 			for (Node node : this.getChildren()) {
 				if (node instanceof Microbe) {
-					Microbe microbe = (Microbe)node;
-					
-					
+					((Microbe) node).update(getChildren());
 				}
 			}
 		}
