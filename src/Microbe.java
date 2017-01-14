@@ -3,7 +3,6 @@ import javafx.scene.Node;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
 
 public class Microbe extends BorderPane {
 	private static final int RADIUS_DEFAULT = 18;
@@ -13,7 +12,9 @@ public class Microbe extends BorderPane {
 	private double rPigment, gPigment, bPigment, visionFieldDistance;
 	private Microbe parent1, parent2;
 
-	public Circle body, visionField;
+	public Circle body;
+	private Circle visionField;
+	public VisionLine sight1, sight2, sight3, sight4, sight5, sight6, sight7;
 
 	//private int stomachSize, stomachSpace, hungerRate;
 	//private int strength, speed, vision, fertility;
@@ -23,6 +24,7 @@ public class Microbe extends BorderPane {
 		getChildren().add(this.body);
 
 		this.visionFieldDistance = 1 + Math.random() * MAX_VISION_FIELD;
+		
 		addVisionField();
 
 		this.setLayoutY(Math.random() * 560);
@@ -48,7 +50,8 @@ public class Microbe extends BorderPane {
 		this.visionField.setStroke(Color.BLACK);
 		this.visionField.setStrokeWidth(1);
 
-		this.setRotate(Math.random() * 360);
+		//TODO start rotation to look around
+		//this.setRotate(Math.random() * 360);
 
 		System.out.println("ADDED:");
 		System.out.println(this.toString());
@@ -74,25 +77,37 @@ public class Microbe extends BorderPane {
 
 	private void addVisionField() {
 		this.visionField = new Circle(0, 0, RADIUS_DEFAULT*this.visionFieldDistance);
+		this.sight1 = new VisionLine(this, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-25))), 
+				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-25))));
+		this.sight2 = new VisionLine(this, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-45))), 
+				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-45))));
+		this.sight3 = new VisionLine(this, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-60))), 
+				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-60))));
+		this.sight4 = new VisionLine(this, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-90))), 
+				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-90))));
+		this.sight5 = new VisionLine(this, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-115))), 
+				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-120))));
+		this.sight6 = new VisionLine(this, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-135))), 
+				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-135))));
+		this.sight7 = new VisionLine(this, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-150))), 
+					(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-155))));
+		
 		getChildren().add(this.visionField);
-
-		getChildren().add(new Line(0, 0, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-25))), 
-				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-25)))));
-		getChildren().add(new Line(0, 0, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-45))), 
-				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-45)))));
-		getChildren().add(new Line(0, 0, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-60))), 
-				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-60)))));
-		getChildren().add(new Line(0, 0, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-90))), 
-				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-90)))));
-		getChildren().add(new Line(0, 0, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-115))), 
-				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-115)))));
-		getChildren().add(new Line(0, 0, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-135))), 
-				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-135)))));
-		getChildren().add(new Line(0, 0, (RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-150))), 
-				(RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-150)))));
+		getChildren().add(this.sight1);
+		getChildren().add(this.sight2);
+		getChildren().add(this.sight3);
+		getChildren().add(this.sight4);
+		getChildren().add(this.sight5);
+		getChildren().add(this.sight6);
+		getChildren().add(this.sight7);
 	}
 
 	public void update(ObservableList<Node> surroundings) {
+		
+		//TODO check surroundings
+		
+		//TODO turn and move accordingly
+		
 		double delta = 0;
 
 		for (Node node : surroundings) {
@@ -103,13 +118,17 @@ public class Microbe extends BorderPane {
 				double itsX = 0;
 				double itsY = 0;
 				
-				delta = Math.sqrt(Math.abs(Math.pow((myX - itsX), 2) + Math.pow((myY - itsY), 2)));
-				
 				if (node instanceof Microbe) {
 					Microbe nearby = (Microbe)node;
+					
+					itsX = nearby.getMyX();
+					itsY = nearby.getMyY();
+					
+					delta = Math.sqrt(Math.abs(Math.pow((myX - itsX), 2) + Math.pow((myY - itsY), 2)));
 
 					if (delta < (2*this.body.getRadius())) {
-						System.out.println(this.name + " collided with " + nearby.getName() + ". Delta = " + delta);
+						//System.out.println(this.name + " collided with " + nearby.getName() + ". Delta = " + delta);
+						//TODO interact accordingly
 					}
 				}
 				else {
@@ -120,31 +139,27 @@ public class Microbe extends BorderPane {
 				}
 				
 				if (node instanceof Bouncer) {
-					//System.out.println("This x: " + myX);
-					//System.out.println("Nearby x: " + itsX);
-					//System.out.println("This y: " + myY);
-					//System.out.println("Nearby y: " + itsY);
-					//System.out.println("Delta: " + delta);
-					
 					if (delta < (this.body.getRadius() + Bouncer.RADIUS_DEFAULT)) {
-						
-						System.out.println(this.name + " collided with a bouncer. delta = " + delta);
+						//System.out.println(this.name + " collided with a bouncer. delta = " + delta);
+						//TODO interact accordingly
 					}
 				}
 				else if (node instanceof Snack) {
 					if (delta < (this.body.getRadius() + Snack.RADIUS_DEFAULT)) {
-						System.out.println(this.name + " collided with a snack. delta = " + delta);
+						//System.out.println(this.name + " collided with a snack. delta = " + delta);
+						//TODO interact accordingly
 					}
 				}
 				else if (node instanceof Food) {
 					if (delta < (this.body.getRadius() + Food.RADIUS_DEFAULT)) {
-						
-						System.out.println(this.name + " collided with food. delta = " + delta);
+						//System.out.println(this.name + " collided with food. delta = " + delta);
+						//TODO interact accordingly
 					}
 				}
 			}
 		}
 	}
+	
 	public int getAge() {
 		return age;
 	}
@@ -200,6 +215,10 @@ public class Microbe extends BorderPane {
 	public double getMyY() {
 		return this.getBoundsInParent().getMinY()+(this.getBoundsInParent().getHeight()/2);
 	}
+	
+	public double getVisionFieldDistance() {
+		return this.visionFieldDistance;
+	}
 
 	public String toString() {
 		String parentString;
@@ -223,7 +242,6 @@ public class Microbe extends BorderPane {
 		partner.setAge(partner.getAge()+1);
 
 		//TODO update ages of grandparents
-
 		return new Microbe(this, partner);
 	}
 }

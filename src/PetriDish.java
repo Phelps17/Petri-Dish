@@ -61,8 +61,8 @@ public class PetriDish extends Application {
 			animation = new Timeline(
 					new KeyFrame(Duration.millis(50), e -> updateDish()));
 			animation.setCycleCount(Timeline.INDEFINITE);
-			animation.play(); // Start animation
-			setInitialBouncers();
+			//animation.play(); // Start animation
+			//setInitialBouncers();
 			innoculateDish();
 		}
 
@@ -89,6 +89,14 @@ public class PetriDish extends Application {
 			for (int i = 0; i < STARTING_MICROBES; i++) {
 				Microbe m = new Microbe();
 				getChildren().add(m);
+				
+				mark(m.sight1.getVisionX(), m.sight1.getVisionY());
+				mark(m.sight2.getVisionX(), m.sight2.getVisionY());
+				mark(m.sight3.getVisionX(), m.sight3.getVisionY());
+				mark(m.sight4.getVisionX(), m.sight4.getVisionY());
+				mark(m.sight5.getVisionX(), m.sight5.getVisionY());
+				mark(m.sight6.getVisionX(), m.sight6.getVisionY());
+				mark(m.sight7.getVisionX(), m.sight7.getVisionY());
 			}
 		}
 
