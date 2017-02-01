@@ -17,16 +17,12 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 
 public class PetriDish extends Application {
-
-	static final int STARTING_FOOD = 10;
-	static final int STARTING_SNACKS = 15;
-	static final int STARTING_MICROBES = 4;
 	
 	@Override // Override the start method in the Application class
 	public void start(Stage primaryStage) {
 
 		DishPane dishPane = new DishPane();
-		dishPane.setStyle("-fx-background-color: azure");
+		dishPane.setStyle(Config.SCENE_STYLE);
 
 		Button btAdd = new Button("+");
 		Button btSubtract = new Button("-");
@@ -49,8 +45,8 @@ public class PetriDish extends Application {
 		//pane.setBottom(hBox);
 
 		// Create a scene and place the pane in the stage
-		Scene scene = new Scene(pane, 1000, 600);
-		primaryStage.setTitle("Petri Dish"); // Set the stage title
+		Scene scene = new Scene(pane, Config.SCENE_WIDTH, Config.SCENE_HEIGHT);
+		primaryStage.setTitle(Config.SCENE_TITLE); // Set the stage title
 		primaryStage.setScene(scene); // Place the scene in the stage
 		primaryStage.setResizable(false);
 		primaryStage.show(); // Display the stage
@@ -71,7 +67,7 @@ public class PetriDish extends Application {
 		}
 
 		private void innoculateDish() {
-			for (int i = 0; i < STARTING_MICROBES; i++) {
+			for (int i = 0; i < Config.STARTING_MICROBES; i++) {
 				Microbe m = new Microbe();
 				this.microbes.add(m);
 			}
@@ -103,8 +99,6 @@ public class PetriDish extends Application {
 			for (Shape shape : updatedBodies) {
 				getChildren().add(shape);
 			}
-			
-			System.out.println("DRAWN");
 		}
 
 	}
