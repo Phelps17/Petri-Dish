@@ -16,6 +16,6 @@ public class Config {
 	public static final int MAX_VISION_FIELD = 3;
 	
 	// Microbe Brain Settings
-	public static final int BRAIN_HIDDEN_LAYERS = 1;
-	public static final int BRAIN_HIDDEN_LAYER_PERCEPTRONS = 6;
+	public static final int BRAIN_HIDDEN_LAYERS = 3;
+	public static final int BRAIN_HIDDEN_LAYER_PERCEPTRONS = 4;
 }

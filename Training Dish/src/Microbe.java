@@ -1,5 +1,3 @@
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
@@ -13,7 +11,8 @@ public class Microbe {
 	private Microbe parent1, parent2;
 
 	public VisionLine sight1, sight2, sight3, sight4, sight5, sight6, sight7;
-
+	private Brain brain;
+	
 	//private int stomachSize, stomachSpace, hungerRate;
 	//private int strength, speed, vision, fertility;
 
@@ -23,6 +22,8 @@ public class Microbe {
 		this.visionFieldDistance = 1 + Math.random() * Config.MAX_VISION_FIELD;
 		this.visionAngle = Math.random() * 360;
 
+		this.brain = new Brain(this);
+		
 		this.generation = 0;
 		this.clan = (int)(Math.random() * 1000000);
 		this.setName(this.clan + (int)(Math.random() * 1000000));
