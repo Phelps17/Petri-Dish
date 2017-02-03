@@ -11,7 +11,7 @@ public class Config {
 	// Default Environment Settings
 	public static final int STARTING_FOOD = 10;
 	public static final int STARTING_SNACKS = 15;
-	public static final int STARTING_MICROBES = 3;
+	public static final int STARTING_MICROBES = 5;
 
 	// Microbe Settings
 	public static final int RADIUS_DEFAULT = 18;
@@ -27,9 +27,11 @@ public class Config {
 	public static final int SNACK_PENALTY = 2;
 	public static final int MICROBE_PENALTY = 1; // will make this dynamic later to get them to interact
 	public static final int WALL_PENALTY = 1;
+	public static final int NO_PENALTY = 1;
 	public static final int BOUNCER_PENALTY = -5;
 	
 	// VisionLine Settings
+	public static final int VISION_POINTS = 2;
 	public static final Color SENSATION_NEUTRAL = Color.BLACK;
 	public static final Color SENSATION_NEGATIVE = Color.RED;
 	public static final Color SENSATION_POSITIVE = Color.GREEN;

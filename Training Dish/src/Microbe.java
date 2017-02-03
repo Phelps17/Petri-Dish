@@ -11,7 +11,6 @@ public class Microbe {
 	private Microbe parent1, parent2;
 
 	public ArrayList<VisionLine> visionLines;
-	//public VisionLine sight1, sight2, sight3, sight4, sight5, sight6, sight7;
 	private Brain brain;
 
 	//private int stomachSize, stomachSpace, hungerRate;
@@ -20,7 +19,7 @@ public class Microbe {
 	public Microbe() {
 		this.x = Config.RADIUS_DEFAULT + Math.random() * (960 - Config.RADIUS_DEFAULT);
 		this.y = Config.RADIUS_DEFAULT + Math.random() * (560 - Config.RADIUS_DEFAULT);
-		
+
 		setupVision();
 
 		this.brain = new Brain(this);
@@ -36,7 +35,7 @@ public class Microbe {
 		this.bPigment = Math.random(); 
 		this.gPigment = Math.random();
 
-		System.out.println("ADDED:");
+		System.out.println("ADDED " + PetriDish.getMicrobes().size() + ":");
 		System.out.println(this.toString());
 		System.out.println();
 	}
@@ -150,11 +149,11 @@ public class Microbe {
 	public ArrayList<VisionLine> getVisionLines() {
 		return this.visionLines;
 	}
-	
+
 	public double getVisionAngle() {
 		return this.visionAngle;
 	}
-	
+
 	public Microbe reproduceWith(Microbe partner) {
 		this.increaseGeneration();
 		partner.increaseGeneration();
@@ -166,7 +165,7 @@ public class Microbe {
 		this.visionFieldDistance = 1 + Math.random() * Config.MAX_VISION_FIELD;
 		this.visionAngle = Math.random() * 360;
 		this.visionLines = new ArrayList<VisionLine>();
-		
+
 		this.visionLines.add(new VisionLine(this, -25));
 		this.visionLines.add(new VisionLine(this, -45));
 		this.visionLines.add(new VisionLine(this, -65));
