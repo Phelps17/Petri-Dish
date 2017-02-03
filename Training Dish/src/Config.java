@@ -9,20 +9,27 @@ public class Config {
 	// Default Environment Settings
 	public static final int STARTING_FOOD = 10;
 	public static final int STARTING_SNACKS = 15;
-	public static final int STARTING_MICROBES = 1;
+	public static final int STARTING_MICROBES = 2;
 
 	// Microbe Settings
 	public static final int RADIUS_DEFAULT = 18;
 	public static final int MAX_VISION_FIELD = 3;
-	
+
 	// Microbe Brain Settings
 	public static final int BRAIN_HIDDEN_LAYERS = 2;
 	public static final int BRAIN_HIDDEN_LAYER_PERCEPTRONS = 4;
-	
+	public static final double DELTA_REGULATOR = 1;
+
 	// Collision penalties
 	public static final int FOOD_PENALTY = 5;
 	public static final int SNACK_PENALTY = 2;
 	public static final int MICROBE_PENALTY = 1; // will make this dynamic later to get them to interact
 	public static final int WALL_PENALTY = -1;
 	public static final int BOUNCER_PENALTY = -5;
+
+	// Processing Function
+	public static double sigmoid(double x)
+	{
+		return -1 + 2*(1/(1 + Math.exp(-x)));
+	}
 }

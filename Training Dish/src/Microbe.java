@@ -56,10 +56,32 @@ public class Microbe {
 	}
 
 	public void update(ArrayList<Shape> updatedBodies) {
-		//TODO add a surroundings parameters and
-		//process perceptrons here
+		//TODO add a surroundings parameters for vision
 		this.brain.fireNeurons();
+		
+		updateX();
+		updateY();
+		updateAngle();
+		
 		drawMicrobe(updatedBodies);
+	}
+	
+	private void updateX() {
+		if (this.getMyX()+Config.RADIUS_DEFAULT < Config.SCENE_WIDTH 
+				&& this.getMyX()-Config.RADIUS_DEFAULT > 0) {
+			this.x += this.brain.getXDelta();
+		}
+	}
+	
+	private void updateY() {
+		if (this.getMyY()+Config.RADIUS_DEFAULT < Config.SCENE_HEIGHT 
+				&& this.getMyY()-Config.RADIUS_DEFAULT > 0) {
+			this.y += this.brain.getYDelta();
+		}
+	}
+	
+	private void updateAngle() {
+		this.visionAngle += this.brain.getAngleDelta();
 	}
 
 	public int getName() {

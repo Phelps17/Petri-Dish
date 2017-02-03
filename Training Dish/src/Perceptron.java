@@ -46,6 +46,6 @@ public class Perceptron {
 			total += inValue;
 		}
 		
-		return total;
+		return Config.sigmoid(total);
 	}
 }

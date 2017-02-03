@@ -22,12 +22,6 @@ public class PetriDish extends Application {
 		DishPane dishPane = new DishPane();
 		dishPane.setStyle(Config.SCENE_STYLE);
 
-		Button btAdd = new Button("+");
-		Button btSubtract = new Button("-");
-		HBox hBox = new HBox(10);
-		hBox.getChildren().addAll(btAdd, btSubtract);
-		hBox.setAlignment(Pos.CENTER);
-
 		// Pause and resume animation
 		dishPane.setOnMousePressed(e -> dishPane.pause());
 		dishPane.setOnMouseReleased(e -> dishPane.play());
@@ -35,7 +29,7 @@ public class PetriDish extends Application {
 		// Use a scroll bar to control animation speed
 		ScrollBar sbSpeed = new ScrollBar();
 		sbSpeed.setMax(20);
-		sbSpeed.setValue(7);
+		sbSpeed.setValue(4);
 		dishPane.rateProperty().bind(sbSpeed.valueProperty());
 
 		BorderPane pane = new BorderPane();
@@ -59,9 +53,8 @@ public class PetriDish extends Application {
 			animation = new Timeline(
 					new KeyFrame(Duration.millis(50), e -> updateDish()));
 			animation.setCycleCount(Timeline.INDEFINITE);
-			//animation.play(); // Start animation
+			animation.play(); // Start animation
 			innoculateDish();
-			updateDish();
 		}
 
 		private void innoculateDish() {
@@ -84,6 +77,7 @@ public class PetriDish extends Application {
 		}
 		
 		private void updateDish() {
+			getChildren().clear();
 			updateMicrobes();
 		}
 		

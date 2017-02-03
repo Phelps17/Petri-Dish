@@ -4,7 +4,7 @@ public abstract class Synapse {
 	private boolean activated;
 	
 	public Synapse() {
-		this.weight = Math.random();
+		this.weight = -10 + (20 * Math.random());
 		this.activated = false;
 	}
 	

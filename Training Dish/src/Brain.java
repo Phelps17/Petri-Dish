@@ -98,4 +98,16 @@ public class Brain {
 			out.addIncoming(synapse);
 		}
 	}
+	
+	public double getXDelta() {
+		return Config.sigmoid(this.upX.getOutputValue() - this.downX.getOutputValue());
+	}
+	
+	public double getYDelta() {
+		return Config.sigmoid(this.upY.getOutputValue() - this.downY.getOutputValue());
+	}
+	
+	public double getAngleDelta() {
+		return Config.sigmoid(this.turnRight.getOutputValue() - this.turnLeft.getOutputValue());
+	}
 }
