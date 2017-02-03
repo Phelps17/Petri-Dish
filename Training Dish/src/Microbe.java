@@ -10,7 +10,8 @@ public class Microbe {
 	private double rPigment, gPigment, bPigment, visionFieldDistance;
 	private Microbe parent1, parent2;
 
-	public VisionLine sight1, sight2, sight3, sight4, sight5, sight6, sight7;
+	public ArrayList<VisionLine> visionLines;
+	//public VisionLine sight1, sight2, sight3, sight4, sight5, sight6, sight7;
 	private Brain brain;
 
 	//private int stomachSize, stomachSpace, hungerRate;
@@ -19,10 +20,9 @@ public class Microbe {
 	public Microbe() {
 		this.x = Config.RADIUS_DEFAULT + Math.random() * (960 - Config.RADIUS_DEFAULT);
 		this.y = Config.RADIUS_DEFAULT + Math.random() * (560 - Config.RADIUS_DEFAULT);
-		this.visionFieldDistance = 1 + Math.random() * Config.MAX_VISION_FIELD;
-		this.visionAngle = Math.random() * 360;
-		updateVision();
 		
+		setupVision();
+
 		this.brain = new Brain(this);
 
 		this.generation = 0;
@@ -58,28 +58,28 @@ public class Microbe {
 	public void update(ArrayList<Shape> updatedBodies) {
 		//TODO add a surroundings parameters for vision
 		this.brain.fireNeurons();
-		
+
 		updateX();
 		updateY();
 		updateAngle();
-		
+
 		drawMicrobe(updatedBodies);
 	}
-	
+
 	private void updateX() {
 		if (this.getMyX()+Config.RADIUS_DEFAULT < Config.SCENE_WIDTH 
 				&& this.getMyX()-Config.RADIUS_DEFAULT > 0) {
 			this.x += this.brain.getXDelta();
 		}
 	}
-	
+
 	private void updateY() {
 		if (this.getMyY()+Config.RADIUS_DEFAULT < Config.SCENE_HEIGHT 
 				&& this.getMyY()-Config.RADIUS_DEFAULT > 0) {
 			this.y += this.brain.getYDelta();
 		}
 	}
-	
+
 	private void updateAngle() {
 		this.visionAngle += this.brain.getAngleDelta();
 	}
@@ -147,6 +147,14 @@ public class Microbe {
 		return this.visionFieldDistance;
 	}
 
+	public ArrayList<VisionLine> getVisionLines() {
+		return this.visionLines;
+	}
+	
+	public double getVisionAngle() {
+		return this.visionAngle;
+	}
+	
 	public Microbe reproduceWith(Microbe partner) {
 		this.increaseGeneration();
 		partner.increaseGeneration();
@@ -154,34 +162,24 @@ public class Microbe {
 		return new Microbe(this, partner);
 	}
 
-	public void updateVision() {
-		this.sight1 = new VisionLine(this, 
-				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-25+this.visionAngle))), 
-				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-25+this.visionAngle))));
+	private void setupVision() {
+		this.visionFieldDistance = 1 + Math.random() * Config.MAX_VISION_FIELD;
+		this.visionAngle = Math.random() * 360;
+		this.visionLines = new ArrayList<VisionLine>();
+		
+		this.visionLines.add(new VisionLine(this, -25));
+		this.visionLines.add(new VisionLine(this, -45));
+		this.visionLines.add(new VisionLine(this, -65));
+		this.visionLines.add(new VisionLine(this, -90));
+		this.visionLines.add(new VisionLine(this, -120));
+		this.visionLines.add(new VisionLine(this, -135));
+		this.visionLines.add(new VisionLine(this, -155));
+	}
 
-		this.sight2 = new VisionLine(this, 
-				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-45+this.visionAngle))), 
-				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-45+this.visionAngle))));
-
-		this.sight3 = new VisionLine(this, 
-				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-60+this.visionAngle))), 
-				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-60+this.visionAngle))));
-
-		this.sight4 = new VisionLine(this, 
-				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-90+this.visionAngle))), 
-				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-90+this.visionAngle))));
-
-		this.sight5 = new VisionLine(this, 
-				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-120+this.visionAngle))), 
-				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-120+this.visionAngle))));
-
-		this.sight6 = new VisionLine(this, 
-				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-135+this.visionAngle))), 
-				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-135+this.visionAngle))));
-
-		this.sight7 = new VisionLine(this, 
-				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-155+this.visionAngle))), 
-				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-155+this.visionAngle))));
+	private void updateVision() {
+		for (VisionLine line : this.visionLines) {
+			line.update();
+		}
 	}
 
 	public String toString() {
@@ -215,12 +213,6 @@ public class Microbe {
 		petriDish.add(visionField);
 
 		updateVision();
-		petriDish.add(this.sight1);
-		petriDish.add(this.sight2);
-		petriDish.add(this.sight3);
-		petriDish.add(this.sight4);
-		petriDish.add(this.sight5);
-		petriDish.add(this.sight6);
-		petriDish.add(this.sight7);
+		petriDish.addAll(this.visionLines);
 	}
 }

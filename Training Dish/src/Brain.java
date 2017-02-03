@@ -6,7 +6,7 @@ public class Brain {
 	private ArrayList<OutputPerceptron> output;
 	private Microbe microbe;
 	private OutputPerceptron turnRight, turnLeft, upX, downX, upY, downY;
-	
+
 	//TODO add constant weights for personality
 	//TODO add dynamic weights for internal sources (hunger/health)
 
@@ -17,11 +17,11 @@ public class Brain {
 
 	private void buildBrain() {
 		this.perceptrons = new ArrayList<Perceptron>();
-		
+
 		//set the inputs
 		setupInput();
 		setupOutput();
-		
+
 		//create the hidden nodes
 		for (int hiddenLevel = 0; hiddenLevel < Config.BRAIN_HIDDEN_LAYERS; hiddenLevel++) {
 			for (int levelId = 0; levelId < Config.BRAIN_HIDDEN_LAYER_PERCEPTRONS; levelId++) {
@@ -35,7 +35,7 @@ public class Brain {
 			if (perceptron.getLayerNumber() == Config.BRAIN_HIDDEN_LAYERS-1) {
 				addOutputSynapses(perceptron);
 			}
-			
+
 			for (Perceptron other : this.perceptrons) {
 				if (perceptron.getLayerNumber() == 0) {
 					addInputSynapses(perceptron);
@@ -48,8 +48,9 @@ public class Brain {
 			}
 		}
 	}
-	
+
 	public void fireNeurons() {
+		//System.out.println("FIRE");
 		for (OutputPerceptron op : this.output) {
 			op.processPerceptron();
 		}
@@ -57,16 +58,10 @@ public class Brain {
 
 	private void setupInput() {
 		this.input = new ArrayList<VisionLine>();
-		
-		input.add(microbe.sight1);
-		input.add(microbe.sight2);
-		input.add(microbe.sight3);
-		input.add(microbe.sight4);
-		input.add(microbe.sight5);
-		input.add(microbe.sight6);
-		input.add(microbe.sight7);
+
+		input.addAll(microbe.getVisionLines());
 	}
-	
+
 	private void setupOutput() {
 		this.output = new ArrayList<OutputPerceptron>();
 		this.turnRight = new OutputPerceptron(this);
@@ -75,7 +70,7 @@ public class Brain {
 		this.downX = new OutputPerceptron(this);
 		this.upY = new OutputPerceptron(this);
 		this.downY = new OutputPerceptron(this);
-		
+
 		this.output.add(this.turnRight);
 		this.output.add(this.turnLeft);
 		this.output.add(this.upX);
@@ -83,14 +78,14 @@ public class Brain {
 		this.output.add(this.upY);
 		this.output.add(this.downY);
 	}
-	
+
 	private void addInputSynapses(Perceptron perceptron) {
 		for (VisionLine sight : this.input) {
 			InputSynapse synapse = new InputSynapse(sight, perceptron);
 			perceptron.addIncoming(synapse);
 		}
 	}
-	
+
 	private void addOutputSynapses(Perceptron perceptron) {
 		for (OutputPerceptron out : this.output) {
 			Synapse synapse = new HiddenSynapse(perceptron, out);
@@ -98,15 +93,15 @@ public class Brain {
 			out.addIncoming(synapse);
 		}
 	}
-	
+
 	public double getXDelta() {
 		return Config.sigmoid(this.upX.getOutputValue() - this.downX.getOutputValue());
 	}
-	
+
 	public double getYDelta() {
 		return Config.sigmoid(this.upY.getOutputValue() - this.downY.getOutputValue());
 	}
-	
+
 	public double getAngleDelta() {
 		return Config.sigmoid(this.turnRight.getOutputValue() - this.turnLeft.getOutputValue());
 	}

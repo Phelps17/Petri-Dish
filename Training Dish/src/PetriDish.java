@@ -2,13 +2,10 @@ import javafx.application.Application;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
-import javafx.geometry.Pos;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Shape;
 import javafx.util.Duration;
@@ -21,7 +18,7 @@ public class PetriDish extends Application {
 
 		DishPane dishPane = new DishPane();
 		dishPane.setStyle(Config.SCENE_STYLE);
-
+		
 		// Pause and resume animation
 		dishPane.setOnMousePressed(e -> dishPane.pause());
 		dishPane.setOnMouseReleased(e -> dishPane.play());
@@ -55,6 +52,7 @@ public class PetriDish extends Application {
 			animation.setCycleCount(Timeline.INDEFINITE);
 			animation.play(); // Start animation
 			innoculateDish();
+			//updateDish();
 		}
 
 		private void innoculateDish() {
