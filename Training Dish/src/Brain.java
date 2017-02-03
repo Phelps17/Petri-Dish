@@ -5,20 +5,19 @@ public class Brain {
 	private ArrayList<VisionLine> input;
 	private ArrayList<OutputPerceptron> output;
 	private Microbe microbe;
+	private OutputPerceptron turnRight, turnLeft, upX, downX, upY, downY;
 	
 	//TODO add constant weights for personality
 	//TODO add dynamic weights for internal sources (hunger/health)
 
 	public Brain(Microbe microbe) {
 		this.microbe = microbe;
-		this.perceptrons = new ArrayList<Perceptron>();
-		this.input = new ArrayList<VisionLine>();
-		this.output = new ArrayList<OutputPerceptron>();
-
 		buildBrain();
 	}
 
 	private void buildBrain() {
+		this.perceptrons = new ArrayList<Perceptron>();
+		
 		//set the inputs
 		setupInput();
 		setupOutput();
@@ -33,6 +32,10 @@ public class Brain {
 
 		//connect perceptrons
 		for (Perceptron perceptron : this.perceptrons) {
+			if (perceptron.getLayerNumber() == Config.BRAIN_HIDDEN_LAYERS-1) {
+				addOutputSynapses(perceptron);
+			}
+			
 			for (Perceptron other : this.perceptrons) {
 				if (perceptron.getLayerNumber() == 0) {
 					addInputSynapses(perceptron);
@@ -41,19 +44,20 @@ public class Brain {
 					Synapse synapse = new HiddenSynapse(other, perceptron);
 					other.addOutgoing(synapse);
 					perceptron.addIncoming(synapse);
-					System.out.println("Synapse : " + other.getLayerNumber() + 
-							" " + other.getlevelId() + " -> " + perceptron.getLayerNumber()
-							+ " " + perceptron.getlevelId());
-				}
-				
-				if (perceptron.getLayerNumber() == Config.BRAIN_HIDDEN_LAYERS-1) {
-					addOutputSynapses(perceptron);
 				}
 			}
 		}
 	}
+	
+	public void fireNeurons() {
+		for (OutputPerceptron op : this.output) {
+			op.processPerceptron();
+		}
+	}
 
 	private void setupInput() {
+		this.input = new ArrayList<VisionLine>();
+		
 		input.add(microbe.sight1);
 		input.add(microbe.sight2);
 		input.add(microbe.sight3);
@@ -64,13 +68,25 @@ public class Brain {
 	}
 	
 	private void setupOutput() {
-		//TODO we are going to need multiple outputs
-		this.output.add(new OutputPerceptron(this));
+		this.output = new ArrayList<OutputPerceptron>();
+		this.turnRight = new OutputPerceptron(this);
+		this.turnLeft = new OutputPerceptron(this);
+		this.upX = new OutputPerceptron(this);
+		this.downX = new OutputPerceptron(this);
+		this.upY = new OutputPerceptron(this);
+		this.downY = new OutputPerceptron(this);
+		
+		this.output.add(this.turnRight);
+		this.output.add(this.turnLeft);
+		this.output.add(this.upX);
+		this.output.add(this.downX);
+		this.output.add(this.upY);
+		this.output.add(this.downY);
 	}
 	
 	private void addInputSynapses(Perceptron perceptron) {
 		for (VisionLine sight : this.input) {
-			Synapse synapse = new InputSynapse(sight, perceptron);
+			InputSynapse synapse = new InputSynapse(sight, perceptron);
 			perceptron.addIncoming(synapse);
 		}
 	}
@@ -79,6 +95,7 @@ public class Brain {
 		for (OutputPerceptron out : this.output) {
 			Synapse synapse = new HiddenSynapse(perceptron, out);
 			perceptron.addOutgoing(synapse);
+			out.addIncoming(synapse);
 		}
 	}
 }

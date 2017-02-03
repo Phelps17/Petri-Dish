@@ -9,4 +9,9 @@ public class InputSynapse extends Synapse{
 		this.in = in;
 		this.out = out;
 	}
+	
+	@Override
+	public double fireSynapse() {
+		return this.in.checkVision() * this.getWeight();
+	}
 }

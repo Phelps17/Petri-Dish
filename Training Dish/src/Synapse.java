@@ -1,9 +1,11 @@
 
 public abstract class Synapse {
 	private double weight;
+	private boolean activated;
 	
 	public Synapse() {
 		this.weight = Math.random();
+		this.activated = false;
 	}
 	
 	public double getWeight() {
@@ -12,5 +14,17 @@ public abstract class Synapse {
 	
 	public void setWeight(double weight) {
 		this.weight = weight;
+	}
+	
+	public boolean getIsActived() {
+		return this.activated;
+	}
+	
+	public void setIsActivated(boolean state) {
+		this.activated = state;
+	}
+	
+	public double fireSynapse() {
+		return 0;
 	}
 }

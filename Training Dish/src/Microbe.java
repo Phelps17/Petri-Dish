@@ -12,7 +12,7 @@ public class Microbe {
 
 	public VisionLine sight1, sight2, sight3, sight4, sight5, sight6, sight7;
 	private Brain brain;
-	
+
 	//private int stomachSize, stomachSpace, hungerRate;
 	//private int strength, speed, vision, fertility;
 
@@ -21,9 +21,10 @@ public class Microbe {
 		this.y = Config.RADIUS_DEFAULT + Math.random() * (560 - Config.RADIUS_DEFAULT);
 		this.visionFieldDistance = 1 + Math.random() * Config.MAX_VISION_FIELD;
 		this.visionAngle = Math.random() * 360;
-
-		this.brain = new Brain(this);
+		updateVision();
 		
+		this.brain = new Brain(this);
+
 		this.generation = 0;
 		this.clan = (int)(Math.random() * 1000000);
 		this.setName(this.clan + (int)(Math.random() * 1000000));
@@ -57,6 +58,7 @@ public class Microbe {
 	public void update(ArrayList<Shape> updatedBodies) {
 		//TODO add a surroundings parameters and
 		//process perceptrons here
+		this.brain.fireNeurons();
 		drawMicrobe(updatedBodies);
 	}
 
@@ -130,6 +132,36 @@ public class Microbe {
 		return new Microbe(this, partner);
 	}
 
+	public void updateVision() {
+		this.sight1 = new VisionLine(this, 
+				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-25+this.visionAngle))), 
+				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-25+this.visionAngle))));
+
+		this.sight2 = new VisionLine(this, 
+				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-45+this.visionAngle))), 
+				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-45+this.visionAngle))));
+
+		this.sight3 = new VisionLine(this, 
+				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-60+this.visionAngle))), 
+				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-60+this.visionAngle))));
+
+		this.sight4 = new VisionLine(this, 
+				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-90+this.visionAngle))), 
+				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-90+this.visionAngle))));
+
+		this.sight5 = new VisionLine(this, 
+				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-120+this.visionAngle))), 
+				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-120+this.visionAngle))));
+
+		this.sight6 = new VisionLine(this, 
+				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-135+this.visionAngle))), 
+				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-135+this.visionAngle))));
+
+		this.sight7 = new VisionLine(this, 
+				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-155+this.visionAngle))), 
+				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-155+this.visionAngle))));
+	}
+
 	public String toString() {
 		String parentString;
 		if (parent1 == null) {
@@ -160,34 +192,13 @@ public class Microbe {
 		visionField.setStrokeWidth(1);
 		petriDish.add(visionField);
 
-		this.sight1 = new VisionLine(this, 
-				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-25+this.visionAngle))), 
-				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-25+this.visionAngle))));
+		updateVision();
 		petriDish.add(this.sight1);
-		this.sight2 = new VisionLine(this, 
-				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-45+this.visionAngle))), 
-				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-45+this.visionAngle))));
 		petriDish.add(this.sight2);
-		this.sight3 = new VisionLine(this, 
-				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-60+this.visionAngle))), 
-				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-60+this.visionAngle))));
 		petriDish.add(this.sight3);
-		this.sight4 = new VisionLine(this, 
-				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-90+this.visionAngle))), 
-				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-90+this.visionAngle))));
 		petriDish.add(this.sight4);
-		this.sight5 = new VisionLine(this, 
-				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-120+this.visionAngle))), 
-				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-120+this.visionAngle))));
 		petriDish.add(this.sight5);
-		this.sight6 = new VisionLine(this, 
-				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-135+this.visionAngle))), 
-				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-135+this.visionAngle))));
 		petriDish.add(this.sight6);
-		this.sight7 = new VisionLine(this, 
-				this.getMyX()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.cos(Math.toRadians(-155+this.visionAngle))), 
-				this.getMyY()+(Config.RADIUS_DEFAULT*this.visionFieldDistance*Math.sin(Math.toRadians(-155+this.visionAngle))));
 		petriDish.add(this.sight7);
-
 	}
 }

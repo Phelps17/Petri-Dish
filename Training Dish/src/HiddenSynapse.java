@@ -8,4 +8,9 @@ public class HiddenSynapse extends Synapse{
 		this.in = in;
 		this.out = out;
 	}
+	
+	@Override
+	public double fireSynapse() {
+		return this.in.processPerceptron() * this.getWeight();
+	}
 }

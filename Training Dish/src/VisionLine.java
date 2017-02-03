@@ -14,9 +14,14 @@ public class VisionLine extends Line {
 	}
 	
 	public int checkVision() {
-		//TODO update depending on what the line sees
+		//going to just avoid things for now
+		if (this.endX <= 0 || this.endY <= 0 || 
+				this.endX >= Config.SCENE_WIDTH || 
+				this.endY > Config.SCENE_HEIGHT) {
+			return Config.WALL_PENALTY;
+		}
 		
-		return 0;
+		return 1;
 	}
 	
 	public double getVisionX() {
