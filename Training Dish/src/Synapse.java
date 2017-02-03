@@ -1,9 +1,16 @@
 
-public class Synapse {
-	private Perceptron input, output;
+public abstract class Synapse {
+	private double weight;
 	
-	public Synapse(Perceptron input, Perceptron output) {
-		this.input = input;
-		this.output = output;
+	public Synapse() {
+		this.weight = Math.random();
+	}
+	
+	public double getWeight() {
+		return this.weight;
+	}
+	
+	public void setWeight(double weight) {
+		this.weight = weight;
 	}
 }

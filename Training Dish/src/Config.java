@@ -9,13 +9,13 @@ public class Config {
 	// Default Environment Settings
 	public static final int STARTING_FOOD = 10;
 	public static final int STARTING_SNACKS = 15;
-	public static final int STARTING_MICROBES = 4;
+	public static final int STARTING_MICROBES = 1;
 
 	// Microbe Settings
 	public static final int RADIUS_DEFAULT = 18;
 	public static final int MAX_VISION_FIELD = 3;
 	
 	// Microbe Brain Settings
-	public static final int BRAIN_HIDDEN_LAYERS = 3;
+	public static final int BRAIN_HIDDEN_LAYERS = 1;
 	public static final int BRAIN_HIDDEN_LAYER_PERCEPTRONS = 4;
 }
